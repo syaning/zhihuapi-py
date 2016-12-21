@@ -1,4 +1,5 @@
 import requests
+from http import cookies
 
 from . import urls
 
@@ -21,9 +22,26 @@ class Request(object):
         }
         self._xsrf = ''
 
+    def setCookie(self, cookie):
+        c = cookies.SimpleCookie()
+        c.load(cookie)
+        if 'z_c0' not in c:
+            raise Exception('Invalid cookie: '
+                            'no authorization (z_c0) in cookie')
+        if '_xsrf' not in c:
+            raise Exception('Invalid cookie: no _xsrf in cookie')
+        self.headers['Cookie'] = cookie.strip()
+        self.headers['Authorization'] = 'Bearer %s' % c['z_c0'].value
+        self._xsrf = c['_xsrf'].value
+
     def request(self, method, url, **kwargs):
         url = urls.full(url)
-        return requests.request(method, url, headers=self.headers, **kwargs)
+        r = requests.request(method, url, headers=self.headers, **kwargs)
+        content_type = r.headers['content-type']
+        if 'application/json' in content_type:
+            return r.json()
+        else:
+            return r.text
 
     def get(self, url, params=None):
         return self.request('GET', url, params=params)
@@ -36,3 +54,10 @@ class Request(object):
 
     def delete(self, url):
         return self.request('DELETE', url)
+
+
+req = Request()
+
+
+def cookie(val):
+    req.setCookie(val)
