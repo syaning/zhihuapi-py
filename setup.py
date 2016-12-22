@@ -5,14 +5,14 @@ with open('README.md') as f:
 
 setup(
     name='zhihuapi',
-    version='0.1.2',
+    version='0.1.3',
     description='Unofficial API for zhihu.',
     long_description=readme,
     author='Alex Sun',
     author_email='syaningv@gmail.com',
     url='https://github.com/syaning/zhihuapi-py',
     license='MIT',
-    packages=['zhihuapi'],
+    packages=['zhihuapi', 'zhihuapi.parser'],
     include_package_data=True,
     install_requires=['requests', 'pyquery'],
     zip_safe=False,
