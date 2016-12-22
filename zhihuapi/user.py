@@ -2,7 +2,7 @@ from .request import req
 from .parser import user as parser
 
 
-class User(object):
+class User:
 
     def __init__(self, url_token):
         self.url_token = url_token
