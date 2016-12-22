@@ -1,4 +1,5 @@
 import requests
+from pyquery import PyQuery as pq
 from http import cookies
 
 from . import urls
@@ -21,6 +22,7 @@ class Request(object):
             'User-Agent': user_agent
         }
         self._xsrf = ''
+        self._raw = False
 
     def setCookie(self, cookie):
         c = cookies.SimpleCookie()
@@ -41,16 +43,13 @@ class Request(object):
         if 'application/json' in content_type:
             return r.json()
         else:
-            return r.text
+            return pq(r.text)
 
     def get(self, url, params=None):
         return self.request('GET', url, params=params)
 
-    def post(self, url, data):
-        return self.request('POST', url, json=data)
-
-    def post_form(self, url, data):
-        return self.request('POST', url, data=data)
+    def post(self, url, data=None, json=None):
+        return self.request('POST', url, data=data, json=json)
 
     def delete(self, url):
         return self.request('DELETE', url)
@@ -61,3 +60,7 @@ req = Request()
 
 def cookie(val):
     req.setCookie(val)
+
+
+def raw(val):
+    req._raw = val
