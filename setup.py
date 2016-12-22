@@ -5,7 +5,7 @@ with open('README.md') as f:
 
 setup(
     name='zhihuapi',
-    version='0.1.1',
+    version='0.1.2',
     description='Unofficial API for zhihu.',
     long_description=readme,
     author='Alex Sun',
