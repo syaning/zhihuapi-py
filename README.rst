@@ -25,7 +25,7 @@ Quich Start
 
 The result is:
 
-.. code-block::
+.. code-block:: js
 	
 	{
 	    "url_token": "zhihuadmin",
