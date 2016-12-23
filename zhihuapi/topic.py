@@ -86,3 +86,37 @@ class Topic:
         }
         r = req.post(url, data=data)
         return parser.answers(r['msg'][1])
+
+    def pending_question(self, page=1):
+        """Get pending questions of this topic.
+
+        For more information about what is a pending question, see:
+        https://www.zhihu.com/question/40470324
+
+        Args:
+            page: The page number.
+
+        Returns:
+            A list of questions
+        """
+        url = '/topic/%d/questions' % self.id
+        params = {'page': page}
+        d = req.get(url, params)
+        return parser.questions(d)
+
+    def hot_pending_question(self, page=1):
+        """Get hot pending questions of this topic.
+
+        For more information about what is a pending question, see:
+        https://www.zhihu.com/question/40470324
+
+        Args:
+            page: The page number.
+
+        Returns:
+            A list of questions
+        """
+        url = '/topic/%d/unanswered' % self.id
+        params = {'page': page}
+        d = req.get(url, params)
+        return parser.questions(d)

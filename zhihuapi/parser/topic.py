@@ -101,3 +101,25 @@ def _parse_answer(d, ele):
     }
     answer['author'].update(parse_slug(author_link))
     return answer
+
+
+def questions(d):
+    eles = d('.feed-item')
+    return [_parse_question(d, ele) for ele in eles]
+
+
+def _parse_question(d, ele):
+    link_ele = d('.question_link', ele)
+    link = link_ele.attr('href')
+    answers_ele = d('meta[itemprop="answerCount"]', ele)
+    followers_ele = d('.question-item-meta .meta-item:nth-child(3)', ele)
+
+    question = {
+        'id': parse_int(link[len('/question/'):]),
+        'type': 'question',
+        'url': urls.full(link),
+        'title': link_ele.text(),
+        'answer_count': parse_int(answers_ele.attr('count')),
+        'follower_count': parse_int(followers_ele.text().split()[0])
+    }
+    return question
