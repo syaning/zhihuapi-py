@@ -1,11 +1,11 @@
 from setuptools import setup
 
-with open('README.rst') as f:
+with open('README.rst', encoding='utf8') as f:
     readme = f.read()
 
 setup(
     name='zhihuapi',
-    version='0.1.3',
+    version='0.2.0',
     description='Unofficial API for zhihu.',
     long_description=readme,
     author='Alex Sun',
