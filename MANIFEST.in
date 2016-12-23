@@ -1,1 +1,1 @@
-include README.md LICENSE CHANGELOG.md requirements.txt
+include README.rst LICENSE CHANGELOG.md requirements.txt
