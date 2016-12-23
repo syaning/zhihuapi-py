@@ -14,7 +14,7 @@ class Topic:
 
     def hierarchy(self):
         """Get the hierarchy of this topic."""
-        url = '/topic/%s/organize' % self.id
+        url = '/topic/%d/organize' % self.id
         d = req.get(url)
         return parser.hierarchy(d)
 
@@ -28,7 +28,7 @@ class Topic:
         Returns:
             A list of users.
         """
-        url = '/topic/%s/followers' % self.id
+        url = '/topic/%d/followers' % self.id
         data = {
             'start': start,
             'offset': offset,
@@ -36,3 +36,53 @@ class Topic:
         }
         r = req.post(url, data=data)
         return parser.followers(r['msg'][1])
+
+    def top_answers(self, page=1):
+        """Get top answers of this topic.
+
+        Args:
+            page: The page number.
+
+        Returns:
+            A list of answers.
+        """
+        url = '/topic/%d/top-answers' % self.id
+        params = {'page': page}
+        d = req.get(url, params)
+        return parser.answers(d)
+
+    def hot_answers(self, offset=''):
+        """Get hot answers of this topic.
+
+        Args:
+            offset: Answer score in float number.
+
+        Returns:
+            A list of answers.
+        """
+        url = '/topic/%d/hot' % self.id
+        data = {
+            'offset': offset,
+            'start': 0,
+            '_xsrf': req._xsrf
+        }
+        r = req.post(url, data=data)
+        return parser.answers(r['msg'][1])
+
+    def new_answers(self, offset=''):
+        """Get newest answers of this topic.
+
+        Args:
+            offset: Answer score in float number.
+
+        Returns:
+            A list of answers.
+        """
+        url = '/topic/%d/newest' % self.id
+        data = {
+            'offset': offset,
+            'start': 0,
+            '_xsrf': req._xsrf
+        }
+        r = req.post(url, data=data)
+        return parser.answers(r['msg'][1])
