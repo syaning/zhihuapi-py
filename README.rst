@@ -20,7 +20,7 @@ Quich Start
     with open('cookie') as f:
         api.cookie(f.read())
 
-    data = api.user('zhihuadmin').detail()
+    data = api.user('zhihuadmin').profile()
     print(data)
 
 The result is:
