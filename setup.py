@@ -1,3 +1,4 @@
+import re
 from setuptools import setup
 
 with open('README.rst', encoding='utf8') as f:

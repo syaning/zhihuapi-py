@@ -19,7 +19,7 @@ class Request(object):
         """Initialize a request instance.
 
         `_raw` is a flag to show whether or not return the raw response body.
-        This is only available for zhihu v4 api that returns a JSON format 
+        This is only available for zhihu v4 api that returns a JSON format
         response body.
         """
         self.headers = {
@@ -69,6 +69,8 @@ req = Request()
 def cookie(val):
     """Set cookie for global request.
 
+    The cookie value must include `z_c0` (authorization token) and `_xsrf`.
+
     Args:
         val: Cookie string.
     """
@@ -76,7 +78,10 @@ def cookie(val):
 
 
 def raw(val):
-    """Set _raw for global request.
+    """Set `_raw` for global request.
+
+    Whether or not return raw response body. This is only available for
+    zhihu v4 apis which return JSON format responses.
 
     Args:
         val: A boolean value.

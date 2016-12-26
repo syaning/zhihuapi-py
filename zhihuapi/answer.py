@@ -48,10 +48,26 @@ class Answer(object):
 
     @staticmethod
     def explore_day(offset=0):
+        """Explore hot answers in this day.
+
+        Args:
+            offset: An integer.
+
+        Returns:
+            A list of answers.
+        """
         return _explore(offset=offset, time_type='day')
 
     @staticmethod
     def explore_month(offset=0):
+        """Explore hot answers in this month.
+
+        Args:
+            offset: An integer.
+
+        Returns:
+            A list of answers.
+        """
         return _explore(offset=offset, time_type='month')
 
 

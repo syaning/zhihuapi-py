@@ -8,15 +8,13 @@ class User:
         self.url_token = url_token
 
     def profile(self):
-        """Get profile of this user.
-        """
+        """Get profile of this user."""
         url = '/api/v4/members/%s' % self.url_token
         data = req.get(url)
         return data if req._raw else parser.profile(data)
 
     def detail(self):
-        """Get detailed profile of this user.
-        """
+        """Get detailed profile of this user."""
         url = '/people/%s/collections' % self.url_token
         d = req.get(url)
         return parser.detail(d, self.url_token)

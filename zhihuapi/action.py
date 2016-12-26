@@ -42,8 +42,7 @@ def vote(answer_id, val):
 
     Args:
         answer_id: The id of the answer.
-        val: Voting type in number. 
-             1 for voting up, 0 for voting neutral, -1 for voting down.
+        val: Voting type in number. 1 for voting up, 0 for voting neutral, -1 for voting down.
     """
     url = '/api/v4/answers/%s/voters' % answer_id
     if val > 0:
@@ -65,7 +64,7 @@ def vote_up(answer_id):
 
 
 def vote_neutral(answer_id):
-    """Vote up an answer.
+    """Vote neutral an answer.
 
     Args:
         answer_id: The id of the answer.
@@ -74,7 +73,7 @@ def vote_neutral(answer_id):
 
 
 def vote_down(answer_id):
-    """Vote up an answer.
+    """Vote down an answer.
 
     Args:
         answer_id: The id of the answer.
