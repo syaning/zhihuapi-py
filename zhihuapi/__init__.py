@@ -1,3 +1,5 @@
+__version__ = '1.0.0'
+
 from .request import cookie, raw
 from . import action
 from .answer import Answer as answer

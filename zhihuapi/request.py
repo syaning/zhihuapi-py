@@ -13,8 +13,15 @@ user_agent = (
 
 
 class Request(object):
+    """This class is just a wrapper for requests package."""
 
     def __init__(self):
+        """Initialize a request instance.
+
+        `_raw` is a flag to show whether or not return the raw response body.
+        This is only available for zhihu v4 api that returns a JSON format 
+        response body.
+        """
         self.headers = {
             'Cookie': '',
             'Authorization': '',
@@ -55,12 +62,23 @@ class Request(object):
         return self.request('DELETE', url)
 
 
+# The global request
 req = Request()
 
 
 def cookie(val):
+    """Set cookie for global request.
+
+    Args:
+        val: Cookie string.
+    """
     req.setCookie(val)
 
 
 def raw(val):
+    """Set _raw for global request.
+
+    Args:
+        val: A boolean value.
+    """
     req._raw = val
