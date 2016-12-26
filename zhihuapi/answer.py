@@ -1,3 +1,5 @@
+import json
+
 from .request import req
 from .parser import answer as parser
 
@@ -43,3 +45,23 @@ class Answer(object):
         }
         data = req.get(url, params)
         return data if req._raw else parser.comments(data)
+
+    @staticmethod
+    def explore_day(offset=0):
+        return _explore(offset=offset, time_type='day')
+
+    @staticmethod
+    def explore_month(offset=0):
+        return _explore(offset=offset, time_type='month')
+
+
+def _explore(offset, time_type):
+    url = '/node/ExploreAnswerListV2'
+    params = {
+        'params': json.dumps({
+            'offset': offset,
+            'type': time_type
+        })
+    }
+    d = req.get(url, params)
+    return parser.explore(d)
