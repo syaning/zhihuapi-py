@@ -18,3 +18,13 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+# publish to gh-pages
+#   make html
+#   cd _build/html
+#   git init
+#   git commit --allow-empty -m "update docs"
+#   git checkout -b gh-pages
+#   git add .
+#   git commit -am "udpate docs"
+#   git push https://github.com/syaning/zhihuapi-py.git gh-pages --force
