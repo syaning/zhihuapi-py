@@ -6,3 +6,7 @@ def voters(data):
     for obj in data:
         obj['url'] = urls.user(obj['url_token'], obj['user_type'])
     return data
+
+
+def comments(data):
+    return data['data']

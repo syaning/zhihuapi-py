@@ -16,10 +16,30 @@ class Answer(object):
         Returns:
             A list of voters.
         """
-        url = '/api/v4/answers/%s/voters' % self.id
+        url = '/api/v4/answers/%d/voters' % self.id
         params = {
             'offset': offset,
             'limit': 20
         }
         data = req.get(url, params)
         return data if req._raw else parser.voters(data)
+
+    def comments(self, offset=0):
+        """Get comments of this answer.
+
+        Args:
+            offset: An integer.
+
+        Returns:
+            A list of comments.
+        """
+        url = '/api/v4/answers/%d/comments' % self.id
+        params = {
+            'offset': offset,
+            'limit': 20,
+            'order': 'normal',
+            'status': 'open',
+            'include': 'data[*].author,reply_to_author,content,vote_count'
+        }
+        data = req.get(url, params)
+        return data if req._raw else parser.comments(data)
