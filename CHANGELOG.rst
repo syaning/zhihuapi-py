@@ -2,6 +2,7 @@ Changelog
 ==================
 
 0.5.0 / 2016-12-26
+------------------
 
 - Add question, answer, collection and action.
 - Add documentation.
