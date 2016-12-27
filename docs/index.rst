@@ -51,7 +51,12 @@ The result is:
         "id": "3d198a56310c02c4a83efb9f4a4c027e"
     }
 
-*Note that you must set cookie before sending any HTTP request.*
+**Note that you must set cookie before sending any HTTP request.** In order to set cookie correctly, you should:
+
+- Sign in with your zhihu account.
+- Open *Chrome DevTools* (or substitutes with other browsers) and navigate to *Network* panel.
+- Select a valid request (a request with host be `www.zhihu.com`), and copy its *Cookie* value in *Request Headers*.
+- **DONOT** use `document.cookie` since some cookie values are *httponly*.
 
 
 API
