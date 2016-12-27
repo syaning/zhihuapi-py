@@ -1,7 +1,9 @@
 zhihu API
 =========================
 
-Unofficial API for zhihu.
+**UNOFFICIAL** API for `zhihu <https://www.zhihu.com>`_. This package supports only Python 3.x.
+
+A `Node.js implementation <https://github.com/syaning/zhihu-api>`_ is also available.
 
 Installation
 ------------
