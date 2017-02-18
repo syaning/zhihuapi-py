@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>zhihuapi.user &#8212; zhihu api 0.5.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for zhihuapi.user</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.request</span> <span class="k">import</span> <span class="n">req</span>
+<span class="kn">from</span> <span class="nn">.parser</span> <span class="k">import</span> <span class="n">user</span> <span class="k">as</span> <span class="n">parser</span>
+
+
+<div class="viewcode-block" id="User"><a class="viewcode-back" href="../../index.html#zhihuapi.User">[docs]</a><span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url_token</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span> <span class="o">=</span> <span class="n">url_token</span>
+
+<div class="viewcode-block" id="User.profile"><a class="viewcode-back" href="../../index.html#zhihuapi.User.profile">[docs]</a>    <span class="k">def</span> <span class="nf">profile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get profile of this user.&quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.detail"><a class="viewcode-back" href="../../index.html#zhihuapi.User.detail">[docs]</a>    <span class="k">def</span> <span class="nf">detail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get detailed profile of this user.&quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/people/</span><span class="si">%s</span><span class="s1">/collections&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">detail</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.activities"><a class="viewcode-back" href="../../index.html#zhihuapi.User.activities">[docs]</a>    <span class="k">def</span> <span class="nf">activities</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">after_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">before_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get this user&#39;s activities.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            after_id: The upper bound of the activity id.</span>
+<span class="sd">            before_id: The lower bound of the activity id.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of activities.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/activities&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                    <span class="s1">&#39;data[?(target.type=answer)].target.is_normal&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;suggest_edit&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;content&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;voteup_count&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;comment_count&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;collapsed_counts&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;reviewing_comments_count&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;mark_infos&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;created_time&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;updated_time&#39;</span>
+                <span class="p">]),</span>
+                <span class="s1">&#39;data[?(target.type=answer)].target.badge[?(type=best_answerer)].topics&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                    <span class="s1">&#39;data[?(target.type=article)].target.column&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;content&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;voteup_count&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;comment_count&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;collapsed_counts&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;reviewing_comments_count&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;comment_permission&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;created&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;updated&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;upvoted_followees&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;voting&#39;</span>
+                <span class="p">]),</span>
+                <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                    <span class="s1">&#39;data[?(target.type=column)].target.title&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;intro&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;articles_count&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;followers&#39;</span>
+                <span class="p">]),</span>
+                <span class="s1">&#39;data[?(target.type=topic)].target.introduction&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;data[?(verb=MEMBER_COLLECT_ANSWER)].extra_object&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;data[?(verb=MEMBER_COLLECT_ARTICLE)].extra_object&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">after_id</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;after_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">after_id</span>
+        <span class="k">if</span> <span class="n">before_id</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;before_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">before_id</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">activities</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.questions"><a class="viewcode-back" href="../../index.html#zhihuapi.User.questions">[docs]</a>    <span class="k">def</span> <span class="nf">questions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get questions that this user asked.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of questions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/questions&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].created&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;follower_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;answer_count&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">questions</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.answers"><a class="viewcode-back" href="../../index.html#zhihuapi.User.answers">[docs]</a>    <span class="k">def</span> <span class="nf">answers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get answers that this user answered.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of answers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/answers&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;sort_by&#39;</span><span class="p">:</span> <span class="s1">&#39;cereated&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].is_normal&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;comment_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;collapsed_counts&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;reviewing_comments_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;content&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;voteup_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;reshipment_settings&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;mark_infos&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;created_time&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;updated_time&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">answers</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.articles"><a class="viewcode-back" href="../../index.html#zhihuapi.User.articles">[docs]</a>    <span class="k">def</span> <span class="nf">articles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get atricles that this user post.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of articles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/articles&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;sort_by&#39;</span><span class="p">:</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].comment_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;collapsed_counts&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;reviewing_comments_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;content&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;voteup_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;created&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;updated&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">articles</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.collections"><a class="viewcode-back" href="../../index.html#zhihuapi.User.collections">[docs]</a>    <span class="k">def</span> <span class="nf">collections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get collections owned by this user.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of collections.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/favlists&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].updated_time&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;follower_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;answer_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;is_public&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">collections</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.followers"><a class="viewcode-back" href="../../index.html#zhihuapi.User.followers">[docs]</a>    <span class="k">def</span> <span class="nf">followers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get followers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of users.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/followers&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">follows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.followees"><a class="viewcode-back" href="../../index.html#zhihuapi.User.followees">[docs]</a>    <span class="k">def</span> <span class="nf">followees</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get followees.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of users.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/followees&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">follows</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.columns"><a class="viewcode-back" href="../../index.html#zhihuapi.User.columns">[docs]</a>    <span class="k">def</span> <span class="nf">columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get columns owned by this user and its contributions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of columns and contributions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/column-contributions&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="s1">&#39;offset&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].column.title&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;intro&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;followers&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;articles_count&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.following_columns"><a class="viewcode-back" href="../../index.html#zhihuapi.User.following_columns">[docs]</a>    <span class="k">def</span> <span class="nf">following_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get columns that this user followed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of columns.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/following-columns&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].intro&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;followers&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;articles_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;image_url&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;is_following&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">following_columns</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.following_topics"><a class="viewcode-back" href="../../index.html#zhihuapi.User.following_topics">[docs]</a>    <span class="k">def</span> <span class="nf">following_topics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get topics that this user followed and its controbutions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of topics and contributions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/following-topic-contributions&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">following_topics</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.following_questions"><a class="viewcode-back" href="../../index.html#zhihuapi.User.following_questions">[docs]</a>    <span class="k">def</span> <span class="nf">following_questions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get questions that this user followed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of questions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/following-questions&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].created&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;answer_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;follower_count&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">questions</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="User.following_collections"><a class="viewcode-back" href="../../index.html#zhihuapi.User.following_collections">[docs]</a>    <span class="k">def</span> <span class="nf">following_collections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get collections that this user followed.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            offset: An integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of collections.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/api/v4/members/</span><span class="si">%s</span><span class="s1">/following-favlists&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_token</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;offset&#39;</span><span class="p">:</span> <span class="n">offset</span><span class="p">,</span>
+            <span class="s1">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+            <span class="s1">&#39;include&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;data[*].updated_time&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;answer_count&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;follower_count&#39;</span>
+            <span class="p">])</span>
+        <span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">_raw</span> <span class="k">else</span> <span class="n">parser</span><span class="o">.</span><span class="n">collections</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Alex Sun.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

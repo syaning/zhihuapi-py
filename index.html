@@ -1,0 +1,900 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>zhihu API &#8212; zhihu api 0.5.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.5.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="zhihu-api">
+<h1>zhihu API<a class="headerlink" href="#zhihu-api" title="Permalink to this headline">¶</a></h1>
+<p>This is just an <strong>UNOFFICIAL</strong> API for <a class="reference external" href="https://www.zhihu.com">zhihu</a>. View source on <a class="reference external" href="https://github.com/syaning/zhihuapi-py">Github</a>.</p>
+<p><a class="reference external" href="https://github.com/syaning/zhihu-api">Node.js version</a> is also available.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ pip install zhihuapi
+</pre></div>
+</div>
+</div>
+<div class="section" id="quich-start">
+<h1>Quich Start<a class="headerlink" href="#quich-start" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">zhihuapi</span> <span class="kn">as</span> <span class="nn">api</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;cookie&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">api</span><span class="o">.</span><span class="n">cookie</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">user</span><span class="p">(</span><span class="s1">&#39;zhihuadmin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The result is:</p>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;url_token&quot;</span><span class="o">:</span> <span class="s2">&quot;zhihuadmin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;avatar_url&quot;</span><span class="o">:</span> <span class="s2">&quot;https://pic3.zhimg.com/34bf96bf5584ac4b5264bd7ed4fdbc5a_is.jpg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;avatar_url_template&quot;</span><span class="o">:</span> <span class="s2">&quot;https://pic3.zhimg.com/34bf96bf5584ac4b5264bd7ed4fdbc5a_{size}.jpg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;people&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;知乎小管家&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;headline&quot;</span><span class="o">:</span> <span class="s2">&quot;欢迎反馈问题和建议！&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_org&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;url&quot;</span><span class="o">:</span> <span class="s2">&quot;https://www.zhihu.com/people/zhihuadmin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;badge&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="o">:</span> <span class="s2">&quot;identity&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;description&quot;</span><span class="o">:</span> <span class="s2">&quot;知乎官方帐号&quot;</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;user_type&quot;</span><span class="o">:</span> <span class="s2">&quot;people&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;is_advertiser&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;3d198a56310c02c4a83efb9f4a4c027e&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Note that you must set cookie before sending any HTTP request.</strong> In order to set cookie correctly, you should:</p>
+<ul class="simple">
+<li>Sign in with your zhihu account.</li>
+<li>Open <em>Chrome DevTools</em> (or substitutes with other browsers) and navigate to <em>Network</em> panel.</li>
+<li>Select a valid request (a request with host be <cite>www.zhihu.com</cite>), and copy its <em>Cookie</em> value in <em>Request Headers</em>.</li>
+<li><strong>DONOT</strong> use <cite>document.cookie</cite> since some cookie values are <em>httponly</em>.</li>
+</ul>
+</div>
+<div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="set-cookie">
+<h2>Set Cookie<a class="headerlink" href="#set-cookie" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="zhihuapi.cookie">
+<code class="descclassname">zhihuapi.</code><code class="descname">cookie</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/request.html#cookie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.cookie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set cookie for global request.</p>
+<p>The cookie value must include <cite>z_c0</cite> (authorization token) and <cite>_xsrf</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> &#8211; Cookie string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="raw-response">
+<h2>Raw Response<a class="headerlink" href="#raw-response" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="zhihuapi.raw">
+<code class="descclassname">zhihuapi.</code><code class="descname">raw</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/request.html#raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set <cite>_raw</cite> for global request.</p>
+<p>Whether or not return raw response body. This is only available for
+zhihu v4 apis which return JSON format responses.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> &#8211; A boolean value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="user">
+<h2>User<a class="headerlink" href="#user" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="zhihuapi.user">
+<code class="descclassname">zhihuapi.</code><code class="descname">user</code><a class="headerlink" href="#zhihuapi.user" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">User</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zhihuapi.user.User">
+<em class="property">class </em><code class="descclassname">zhihuapi.user.</code><code class="descname">User</code><span class="sig-paren">(</span><em>url_token</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="zhihuapi.user.User.profile">
+<code class="descname">profile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get profile of this user.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.detail">
+<code class="descname">detail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.detail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get detailed profile of this user.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.activities">
+<code class="descname">activities</code><span class="sig-paren">(</span><em>after_id=None</em>, <em>before_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.activities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.activities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get this user&#8217;s activities.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>after_id</strong> &#8211; The upper bound of the activity id.</li>
+<li><strong>before_id</strong> &#8211; The lower bound of the activity id.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of activities.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.questions">
+<code class="descname">questions</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.questions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get questions that this user asked.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of questions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.answers">
+<code class="descname">answers</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.answers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.answers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get answers that this user answered.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.articles">
+<code class="descname">articles</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.articles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.articles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get atricles that this user post.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of articles.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.collections">
+<code class="descname">collections</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.collections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get collections owned by this user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of collections.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.followers">
+<code class="descname">followers</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.followers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.followers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get followers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of users.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.followees">
+<code class="descname">followees</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.followees"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.followees" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get followees.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of users.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.columns">
+<code class="descname">columns</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get columns owned by this user and its contributions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of columns and contributions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.following_columns">
+<code class="descname">following_columns</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.following_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.following_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get columns that this user followed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of columns.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.following_topics">
+<code class="descname">following_topics</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.following_topics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.following_topics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get topics that this user followed and its controbutions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of topics and contributions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.following_questions">
+<code class="descname">following_questions</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.following_questions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.following_questions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get questions that this user followed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of questions.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.user.User.following_collections">
+<code class="descname">following_collections</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/user.html#User.following_collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.user.User.following_collections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get collections that this user followed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of collections.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="topic">
+<h2>Topic<a class="headerlink" href="#topic" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="zhihuapi.topic">
+<code class="descclassname">zhihuapi.</code><code class="descname">topic</code><a class="headerlink" href="#zhihuapi.topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Topic</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zhihuapi.topic.Topic">
+<em class="property">class </em><code class="descclassname">zhihuapi.topic.</code><code class="descname">Topic</code><span class="sig-paren">(</span><em>topic_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="classmethod">
+<dt id="zhihuapi.topic.Topic.root">
+<em class="property">classmethod </em><code class="descname">root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.root"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.root" title="Permalink to this definition">¶</a></dt>
+<dd><p>The root topic.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.topic.Topic.hierarchy">
+<code class="descname">hierarchy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.hierarchy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.hierarchy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the hierarchy of this topic.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.topic.Topic.followers">
+<code class="descname">followers</code><span class="sig-paren">(</span><em>start=''</em>, <em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.followers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.followers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get followers of this topic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>start</strong> &#8211; Timestamp in seconds.</li>
+<li><strong>offset</strong> &#8211; An integer.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of users.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.topic.Topic.top_answers">
+<code class="descname">top_answers</code><span class="sig-paren">(</span><em>page=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.top_answers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.top_answers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get top answers of this topic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>page</strong> &#8211; The page number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.topic.Topic.hot_answers">
+<code class="descname">hot_answers</code><span class="sig-paren">(</span><em>offset=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.hot_answers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.hot_answers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get hot answers of this topic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; Answer score in float number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.topic.Topic.new_answers">
+<code class="descname">new_answers</code><span class="sig-paren">(</span><em>offset=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.new_answers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.new_answers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get newest answers of this topic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; Answer score in float number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.topic.Topic.pending_question">
+<code class="descname">pending_question</code><span class="sig-paren">(</span><em>page=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.pending_question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.pending_question" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get pending questions of this topic.</p>
+<p>For more information about what is a pending question, see:
+<a class="reference external" href="https://www.zhihu.com/question/40470324">https://www.zhihu.com/question/40470324</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>page</strong> &#8211; The page number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of questions</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.topic.Topic.hot_pending_question">
+<code class="descname">hot_pending_question</code><span class="sig-paren">(</span><em>page=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/topic.html#Topic.hot_pending_question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.topic.Topic.hot_pending_question" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get hot pending questions of this topic.</p>
+<p>For more information about what is a pending question, see:
+<a class="reference external" href="https://www.zhihu.com/question/40470324">https://www.zhihu.com/question/40470324</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>page</strong> &#8211; The page number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of questions</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="question">
+<h2>Question<a class="headerlink" href="#question" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="zhihuapi.question">
+<code class="descclassname">zhihuapi.</code><code class="descname">question</code><a class="headerlink" href="#zhihuapi.question" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Question</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zhihuapi.question.Question">
+<em class="property">class </em><code class="descclassname">zhihuapi.question.</code><code class="descname">Question</code><span class="sig-paren">(</span><em>question_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/question.html#Question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.question.Question" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="zhihuapi.question.Question.answers_byvote">
+<code class="descname">answers_byvote</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/question.html#Question.answers_byvote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.question.Question.answers_byvote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get answers by voteup weights.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.question.Question.answers_bypage">
+<code class="descname">answers_bypage</code><span class="sig-paren">(</span><em>page=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/question.html#Question.answers_bypage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.question.Question.answers_bypage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get answers by page (or created time).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>page</strong> &#8211; Page number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.question.Question.detail">
+<code class="descname">detail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/question.html#Question.detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.question.Question.detail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get detail information of this question.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Detailed question information.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.question.Question.followers">
+<code class="descname">followers</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/question.html#Question.followers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.question.Question.followers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get users that followed this question.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of users.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="answer">
+<h2>Answer<a class="headerlink" href="#answer" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="zhihuapi.answer">
+<code class="descclassname">zhihuapi.</code><code class="descname">answer</code><a class="headerlink" href="#zhihuapi.answer" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Answer</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zhihuapi.answer.Answer">
+<em class="property">class </em><code class="descclassname">zhihuapi.answer.</code><code class="descname">Answer</code><span class="sig-paren">(</span><em>answer_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/answer.html#Answer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.answer.Answer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="zhihuapi.answer.Answer.voters">
+<code class="descname">voters</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/answer.html#Answer.voters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.answer.Answer.voters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get voters of this answer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of voters.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.answer.Answer.comments">
+<code class="descname">comments</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/answer.html#Answer.comments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.answer.Answer.comments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get comments of this answer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of comments.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="zhihuapi.answer.Answer.explore_day">
+<em class="property">static </em><code class="descname">explore_day</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/answer.html#Answer.explore_day"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.answer.Answer.explore_day" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explore hot answers in this day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="zhihuapi.answer.Answer.explore_month">
+<em class="property">static </em><code class="descname">explore_month</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/answer.html#Answer.explore_month"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.answer.Answer.explore_month" title="Permalink to this definition">¶</a></dt>
+<dd><p>Explore hot answers in this month.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="collection">
+<h2>Collection<a class="headerlink" href="#collection" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="zhihuapi.collection">
+<code class="descclassname">zhihuapi.</code><code class="descname">collection</code><a class="headerlink" href="#zhihuapi.collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Collection</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zhihuapi.collection.Collection">
+<em class="property">class </em><code class="descclassname">zhihuapi.collection.</code><code class="descname">Collection</code><span class="sig-paren">(</span><em>collection_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/collection.html#Collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.collection.Collection" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="zhihuapi.collection.Collection.answers">
+<code class="descname">answers</code><span class="sig-paren">(</span><em>page=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/collection.html#Collection.answers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.collection.Collection.answers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get answers in this collection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>page</strong> &#8211; Page number.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of answers.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="column">
+<h2>Column<a class="headerlink" href="#column" title="Permalink to this headline">¶</a></h2>
+<dl class="attribute">
+<dt id="zhihuapi.column">
+<code class="descclassname">zhihuapi.</code><code class="descname">column</code><a class="headerlink" href="#zhihuapi.column" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Column</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="zhihuapi.column.Column">
+<em class="property">class </em><code class="descclassname">zhihuapi.column.</code><code class="descname">Column</code><span class="sig-paren">(</span><em>slug</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/column.html#Column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.column.Column" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="zhihuapi.column.Column.info">
+<code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/column.html#Column.info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.column.Column.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get column information</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.column.Column.pins">
+<code class="descname">pins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/column.html#Column.pins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.column.Column.pins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pin top posts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.column.Column.posts">
+<code class="descname">posts</code><span class="sig-paren">(</span><em>offset=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/column.html#Column.posts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.column.Column.posts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Posts in this column.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>offset</strong> &#8211; An integer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of posts.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="zhihuapi.column.Column.authors">
+<code class="descname">authors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/column.html#Column.authors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.column.Column.authors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Authors in this column.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-zhihuapi.action">
+<span id="action"></span><h2>Action<a class="headerlink" href="#module-zhihuapi.action" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="zhihuapi.action.follow">
+<code class="descclassname">zhihuapi.action.</code><code class="descname">follow</code><span class="sig-paren">(</span><em>url_token</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/action.html#follow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.action.follow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Follow a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>url_token</strong> &#8211; The url token (or slug) of the user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zhihuapi.action.unfollow">
+<code class="descclassname">zhihuapi.action.</code><code class="descname">unfollow</code><span class="sig-paren">(</span><em>url_token</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/action.html#unfollow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.action.unfollow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unfollow a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>url_token</strong> &#8211; The url token (or slug) of the user.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zhihuapi.action.message">
+<code class="descclassname">zhihuapi.action.</code><code class="descname">message</code><span class="sig-paren">(</span><em>user_id</em>, <em>content</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/action.html#message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.action.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send message to a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> &#8211; Hash id of the user.</li>
+<li><strong>content</strong> &#8211; Message content in string.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zhihuapi.action.vote">
+<code class="descclassname">zhihuapi.action.</code><code class="descname">vote</code><span class="sig-paren">(</span><em>answer_id</em>, <em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/action.html#vote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.action.vote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vote an answer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>answer_id</strong> &#8211; The id of the answer.</li>
+<li><strong>val</strong> &#8211; Voting type in number. 1 for voting up, 0 for voting neutral, -1 for voting down.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zhihuapi.action.vote_up">
+<code class="descclassname">zhihuapi.action.</code><code class="descname">vote_up</code><span class="sig-paren">(</span><em>answer_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/action.html#vote_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.action.vote_up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vote up an answer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>answer_id</strong> &#8211; The id of the answer.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zhihuapi.action.vote_neutral">
+<code class="descclassname">zhihuapi.action.</code><code class="descname">vote_neutral</code><span class="sig-paren">(</span><em>answer_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/action.html#vote_neutral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.action.vote_neutral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vote neutral an answer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>answer_id</strong> &#8211; The id of the answer.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="zhihuapi.action.vote_down">
+<code class="descclassname">zhihuapi.action.</code><code class="descname">vote_down</code><span class="sig-paren">(</span><em>answer_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/zhihuapi/action.html#vote_down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#zhihuapi.action.vote_down" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vote down an answer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>answer_id</strong> &#8211; The id of the answer.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">zhihu API</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#quich-start">Quich Start</a></li>
+<li><a class="reference internal" href="#api">API</a><ul>
+<li><a class="reference internal" href="#set-cookie">Set Cookie</a></li>
+<li><a class="reference internal" href="#raw-response">Raw Response</a></li>
+<li><a class="reference internal" href="#user">User</a></li>
+<li><a class="reference internal" href="#topic">Topic</a></li>
+<li><a class="reference internal" href="#question">Question</a></li>
+<li><a class="reference internal" href="#answer">Answer</a></li>
+<li><a class="reference internal" href="#collection">Collection</a></li>
+<li><a class="reference internal" href="#column">Column</a></li>
+<li><a class="reference internal" href="#module-zhihuapi.action">Action</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Alex Sun.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
