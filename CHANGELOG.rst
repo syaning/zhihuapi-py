@@ -1,6 +1,10 @@
 Changelog
 ==================
 
+0.6.0 / 2017-02-18
+
+- Fix questions to meet the zhihu new API.
+
 0.5.0 / 2016-12-26
 ------------------
 
