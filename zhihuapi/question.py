@@ -18,35 +18,45 @@ class Question:
         Returns:
             A list of answers.
         """
-        url = '/node/QuestionAnswerListV2'
-        data = {
-            'method': 'next',
-            'params': json.dumps({
-                'url_token': self.id,
-                'pagesize': 20,
-                'offset': offset
-            }),
-            '_xsrf': req._xsrf
-        }
-        r = req.post(url, data=data)
-        return parser.answers_byvote(r['msg'])
+        return self._answers('default', offset)
 
-    def answers_bypage(self, page=1):
+    def answers_bypage(self, offset=0):
         """Get answers by page (or created time).
 
         Args:
-            page: Page number.
+            offset: An integer.
 
         Returns:
             A list of answers.
         """
-        url = '/question/%d' % self.id
+        return self._answers('created', offset)
+
+    def _answers(self, sort_by='default', offset=0):
+        """Get answers."""
+        url = '/api/v4/questions/%d/answers' % self.id
         params = {
-            'page': page,
-            'sort': 'created'
+            'sort_by': sort_by,
+            'offset': offset,
+            'limit': 20,
+            'include': ','.join([
+                'data[*].is_normal',
+                'is_sticky',
+                'collapsed_by',
+                'suggest_edit',
+                'comment_count',
+                'collapsed_counts',
+                'reviewing_comments_count',
+                'content',
+                'voteup_count',
+                'reshipment_settings',
+                'comment_permission',
+                'mark_infos',
+                'created_time',
+                'updated_time'
+            ])
         }
-        d = req.get(url, params)
-        return parser.answers_bypage(d)
+        data = req.get(url, params=params)
+        return data if req._raw else parser.answers(data)
 
     def detail(self):
         """Get detail information of this question.
@@ -54,9 +64,9 @@ class Question:
         Returns:
             Detailed question information.
         """
-        url = '/question/%d' % self.id
-        d = req.get(url)
-        return parser.detail(d)
+        url = '/api/v4/questions/%d' % self.id
+        data = req.get(url)
+        return parser.detail(data)
 
     def followers(self, offset=0):
         """Get users that followed this question.
@@ -67,11 +77,10 @@ class Question:
         Returns:
             A list of users.
         """
-        url = '/question/%d/followers' % self.id
-        data = {
-            'offset': offset,
-            'start': 0,
-            '_xsrf': req._xsrf
+        url = '/api/v4/questions/%d/followers' % self.id
+        params = {
+            'limit': 20,
+            'offset': offset
         }
-        r = req.post(url, data=data)
-        return parser.followers(r['msg'][1])
+        data = req.get(url, params)
+        return data if req._raw else parser.followers(data)
