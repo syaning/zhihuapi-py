@@ -119,7 +119,7 @@ def _parse_question(d, ele):
         'type': 'question',
         'url': urls.full(link),
         'title': link_ele.text(),
-        'answer_count': parse_int(answers_ele.attr('count')),
+        'answer_count': parse_int(answers_ele.attr('content')),
         'follower_count': parse_int(followers_ele.text().split()[0])
     }
     return question

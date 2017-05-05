@@ -79,3 +79,32 @@ def vote_down(answer_id):
         answer_id: The id of the answer.
     """
     return vote(answer_id, -1)
+
+
+def report(resource_id, resource_type, reason_type):
+    """Report a question, an answer, or a member
+    
+    For a question, valid reason_type are:
+        - personal
+        - spam
+        - TODO add more reason_types for question
+    For an answer, valid reason_type are:
+        - spam
+        - TODO add more reason_types for answer
+    For a user, valid reason_type are:
+        - spam
+        - TODO add more reason_types for user
+    
+    Args:
+        resource_id: The id of the entity (question id, answer id, member name)
+        resource_type: question, answer, member
+        reason_type: spam, etc.
+    """
+    url = '/api/v4/reports'
+    data = {
+        'resource_id': resource_id,
+        'type': resource_type,
+        'reason_type': reason_type,
+        'source': 'web'
+    }
+    return req.post(url, json=data)

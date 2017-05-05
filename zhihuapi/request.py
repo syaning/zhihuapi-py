@@ -46,6 +46,8 @@ class Request(object):
     def request(self, method, url, **kwargs):
         url = urls.full(url)
         r = requests.request(method, url, headers=self.headers, **kwargs)
+        if r.status_code == 204:
+            return 'HTTP 204 No Content'
         content_type = r.headers['content-type']
         if 'application/json' in content_type:
             return r.json()
